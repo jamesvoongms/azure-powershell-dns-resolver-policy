@@ -1,18 +1,17 @@
-### Example 1: {{ Add title here }}
+### Example 1: List all DNS Resolver Policy Links under the dns resolver policy 
 ```powershell
 PS C:\> {{ Add code here }}
 
 {{ Add output here }}
 ```
 
-{{ Add description here }}
+This command gets all DNS Resolver Policy Links under the dns resolver policy.
 
-### Example 2: {{ Add title here }}
+### Example 2: Get single DNS Resolver Policy Link by name
 ```powershell
 PS C:\> {{ Add code here }}
 
 {{ Add output here }}
 ```
 
-{{ Add description here }}
-
+This command gets a single DNS Resolver Policy Link by name.
