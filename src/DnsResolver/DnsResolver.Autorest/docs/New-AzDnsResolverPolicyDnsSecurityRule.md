@@ -1,66 +1,57 @@
 ---
-external help file: Az.DnsResolver-help.xml
+external help file:
 Module Name: Az.DnsResolver
-online version: https://learn.microsoft.com/powershell/module/az.dnsresolver/update-azdnsresolverpolicydnssecurityrule
+online version: https://learn.microsoft.com/powershell/module/az.dnsresolver/new-azdnsresolverpolicydnssecurityrule
 schema: 2.0.0
 ---
 
-# Update-AzDnsResolverPolicyDnsSecurityRule
+# New-AzDnsResolverPolicyDnsSecurityRule
 
 ## SYNOPSIS
-Updates a DNS security rule.
+Creates or updates a DNS security rule for a DNS resolver policy.
 
 ## SYNTAX
 
-### UpdateExpanded (Default)
 ```
-Update-AzDnsResolverPolicyDnsSecurityRule -DnsResolverPolicyName <String> -Name <String>
- -ResourceGroupName <String> [-SubscriptionId <String>] [-IfMatch <String>] [-ActionType <ActionType>]
+New-AzDnsResolverPolicyDnsSecurityRule -DnsResolverPolicyName <String> -Name <String>
+ -ResourceGroupName <String> -Location <String> -Priority <Int32> [-SubscriptionId <String>]
+ [-IfMatch <String>] [-IfNoneMatch <String>] [-ActionType <ActionType>]
  [-DnsResolverDomainList <ISubResource[]>] [-DnsSecurityRuleState <DnsSecurityRuleState>]
- [-ManagedDomainList <ManagedDomainList[]>] [-Priority <Int32>] [-Tag <Hashtable>] [-DefaultProfile <PSObject>]
- [-AsJob] [-NoWait] [-WhatIf] [-Confirm] [<CommonParameters>]
-```
-
-### UpdateViaIdentityExpanded
-```
-Update-AzDnsResolverPolicyDnsSecurityRule -InputObject <IDnsResolverIdentity> [-IfMatch <String>]
- [-ActionType <ActionType>] [-DnsResolverDomainList <ISubResource[]>]
- [-DnsSecurityRuleState <DnsSecurityRuleState>] [-ManagedDomainList <ManagedDomainList[]>] [-Priority <Int32>]
- [-Tag <Hashtable>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait]
- [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-ManagedDomainList <ManagedDomainList[]>] [-Tag <Hashtable>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait]
+ [-Confirm] [-WhatIf] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Updates a DNS security rule.
+Creates or updates a DNS security rule for a DNS resolver policy.
 
 ## EXAMPLES
 
-### Example 1: Update an existing DNS Security Rule by name
+### Example 1: Create a DNS security rule 
 ```powershell
-Update-AzDnsResolverPolicyDnsSecurityRule -ResourceGroupName powershell-test-rg -DnsResolverPolicyName exampleDnsResolverPolicyName -Name psdnssecurityrulename33nmy1fz -Tag @{"key0" = "value0"}
+New-AzDnsResolverPolicyDnsSecurityRule -Name sampleSecurityRule -ResourceGroupName powershell-test-rg -DnsResolverPolicyName samplePolicyName -Location westus2 -DnsSecurityRuleState "Enabled" -ActionType "Block" -Priority 100 -DnsResolverDomainList @{id = "/subscriptions/0e5a46b1-de0b-4ec3-a5d7-dda908b4e076/resourceGroups/powershell-test-rg/providers/Microsoft.Network/dnsResolverDomainLists/exampleDomainListName";}
+
 ```
 
 ```output
-Location Name                                Type                                     Etag
--------- ----                                ----                                     ----
-westus2  psdnssecurityrulename33nmy1fz       Microsoft.Network/dnsSecurityRules       "0000efd6-0000-0800-0000-60401c7c0000"
+Location Name                     Type                                     Etag
+-------- ----                     ----                                     ----
+westus2  sampleSecurityRule       Microsoft.Network/dnsSecurityRules       "000027d5-0000-0800-0000-6040150e0000"
 ```
 
-This command updates an existing DNS Security Rules by name ( adding tag ).
+This cmdlet creates a DNS security rule.
 
-### Example 2: Updates an existing DNS Resolver by identity
+### Example 2: Create a DNS security rule with tag 
 ```powershell
-$dnsSecurityRuleObject = Get-AzDnsResolverPolicyDnsSecurityRule -ResourceGroupName powershell-test-rg -DnsResolverPolicyName exampleDnsResolverPolicyName -Name psdnssecurityrulename33nmy1fz
-Update-AzDnsResolverPolicyDnsSecurityRule -InputObject $dnsSecurityRuleObject  -Tag @{}
+New-AzDnsResolverPolicyDnsSecurityRule -Name sampleSecurityRule -ResourceGroupName powershell-test-rg -DnsResolverPolicyName samplePolicyName -Location westus2 -DnsSecurityRuleState "Enabled" -ActionType "Block" -Priority 100 -DnsResolverDomainList @{id = "/subscriptions/0e5a46b1-de0b-4ec3-a5d7-dda908b4e076/resourceGroups/powershell-test-rg/providers/Microsoft.Network/dnsResolverDomainLists/exampleDomainListName";} -Tag @{"key0" = "value0"}
 ```
 
 ```output
-Location Name                                Type                                     Etag
--------- ----                                ----                                     ----
-westus2  psdnssecurityrulename33nmy1fz       Microsoft.Network/dnsSecurityRules       "0000efd6-0000-0800-0000-60401c7c0000"
+Location Name                     Type                                     Etag
+-------- ----                     ----                                     ----
+westus2  sampleSecurityRule       Microsoft.Network/dnsSecurityRules       "00008cd5-0000-0800-0000-604016c90000"
 ```
 
-This command updates an existing DNS Security Rules by identity ( removing tag ).
+This cmdlet creates a DNS security rule with tag.
 
 ## PARAMETERS
 
@@ -131,7 +122,7 @@ The name of the DNS resolver policy.
 
 ```yaml
 Type: System.String
-Parameter Sets: UpdateExpanded
+Parameter Sets: (All)
 Aliases:
 
 Required: True
@@ -173,19 +164,34 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -InputObject
-Identity Parameter
-To construct, see NOTES section for INPUTOBJECT properties and create a hash table.
+### -IfNoneMatch
+Set to '*' to allow a new resource to be created, but to prevent updating an existing resource.
+Other values will be ignored.
 
 ```yaml
-Type: Microsoft.Azure.PowerShell.Cmdlets.DnsResolver.Models.IDnsResolverIdentity
-Parameter Sets: UpdateViaIdentityExpanded
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Location
+The geo-location where the resource lives
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
 Aliases:
 
 Required: True
 Position: Named
 Default value: None
-Accept pipeline input: True (ByValue)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -209,7 +215,7 @@ The name of the DNS security rule.
 
 ```yaml
 Type: System.String
-Parameter Sets: UpdateExpanded
+Parameter Sets: (All)
 Aliases: DnsSecurityRuleName
 
 Required: True
@@ -242,7 +248,7 @@ Type: System.Int32
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -255,7 +261,7 @@ The name is case insensitive.
 
 ```yaml
 Type: System.String
-Parameter Sets: UpdateExpanded
+Parameter Sets: (All)
 Aliases:
 
 Required: True
@@ -271,7 +277,7 @@ The value must be an UUID.
 
 ```yaml
 Type: System.String
-Parameter Sets: UpdateExpanded
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -282,7 +288,7 @@ Accept wildcard characters: False
 ```
 
 ### -Tag
-Tags for DNS security rule.
+Resource tags.
 
 ```yaml
 Type: System.Collections.Hashtable
@@ -332,8 +338,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### Microsoft.Azure.PowerShell.Cmdlets.DnsResolver.Models.IDnsResolverIdentity
-
 ## OUTPUTS
 
 ### Microsoft.Azure.PowerShell.Cmdlets.DnsResolver.Models.Api20250501.IDnsSecurityRule
@@ -341,3 +345,4 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
+

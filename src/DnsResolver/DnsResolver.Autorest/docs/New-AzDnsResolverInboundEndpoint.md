@@ -1,73 +1,58 @@
 ---
-external help file: Az.DnsResolver-help.xml
+external help file:
 Module Name: Az.DnsResolver
-online version: https://learn.microsoft.com/powershell/module/az.dnsresolver/new-azdnsresolverpolicydnssecurityrule
+online version: https://learn.microsoft.com/powershell/module/az.dnsresolver/new-azdnsresolverinboundendpoint
 schema: 2.0.0
 ---
 
-# New-AzDnsResolverPolicyDnsSecurityRule
+# New-AzDnsResolverInboundEndpoint
 
 ## SYNOPSIS
-Creates or updates a DNS security rule for a DNS resolver policy.
+Creates or updates an inbound endpoint for a DNS resolver.
 
 ## SYNTAX
 
 ```
-New-AzDnsResolverPolicyDnsSecurityRule -DnsResolverPolicyName <String> -Name <String>
- -ResourceGroupName <String> [-SubscriptionId <String>] [-IfMatch <String>] [-IfNoneMatch <String>]
- -Location <String> -Priority <Int32> [-ActionType <ActionType>] [-DnsResolverDomainList <ISubResource[]>]
- [-DnsSecurityRuleState <DnsSecurityRuleState>] [-ManagedDomainList <ManagedDomainList[]>] [-Tag <Hashtable>]
- [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-WhatIf] [-Confirm]
- [<CommonParameters>]
+New-AzDnsResolverInboundEndpoint -DnsResolverName <String> -Name <String> -ResourceGroupName <String>
+ -IPConfiguration <IIPConfiguration[]> -Location <String> [-SubscriptionId <String>] [-IfMatch <String>]
+ [-IfNoneMatch <String>] [-Tag <Hashtable>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm]
+ [-WhatIf] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Creates or updates a DNS security rule for a DNS resolver policy.
+Creates or updates an inbound endpoint for a DNS resolver.
 
 ## EXAMPLES
 
-### Example 1: Create a DNS security rule
+### Example 1: Create an Inbound Endpoint for DNS Resolver
 ```powershell
-New-AzDnsResolverPolicyDnsSecurityRule -Name sampleSecurityRule -ResourceGroupName powershell-test-rg -DnsResolverPolicyName samplePolicyName -Location westus2 -DnsSecurityRuleState "Enabled" -ActionType "Block" -Priority 100 -DnsResolverDomainList @{id = "/subscriptions/0e5a46b1-de0b-4ec3-a5d7-dda908b4e076/resourceGroups/powershell-test-rg/providers/Microsoft.Network/dnsResolverDomainLists/exampleDomainListName";}
+$ipConfiguration = New-AzDnsResolverIPConfigurationObject -PrivateIPAllocationMethod Dynamic -SubnetId /subscriptions/0e5a46b1-de0b-4ec3-a5d7-dda908b4e076/resourceGroups/powershell-test-rg/providers/Microsoft.Network/virtualNetworks/psvirtualnetworkname31ur3isx/subnets/pssubnetname311tqweg
+
+New-AzDnsResolverInboundEndpoint -DnsResolverName pstestdnsresolvername -Name sampleInboundEndpoint -ResourceGroupName powershell-test-rg -IPConfiguration $ipConfiguration
 ```
 
 ```output
-Location Name                     Type                                     Etag
--------- ----                     ----                                     ----
-westus2  sampleSecurityRule       Microsoft.Network/dnsSecurityRules       "000027d5-0000-0800-0000-6040150e0000"
+Name                  Type                                            Etag
+----                  ----                                            ----
+sampleInboundEndpoint Microsoft.Network/dnsResolvers/inboundEndpoints "0b008451-0000-0800-0000-60402b960000"
 ```
 
-This cmdlet creates a DNS security rule.
+This command creates an Inbound Endpoint for DNS Resolver.
 
-### Example 2: Create a DNS security rule with tag
+### Example 2: Create an Inbound Endpoint for DNS Resolver with Tag
 ```powershell
-New-AzDnsResolverPolicyDnsSecurityRule -Name sampleSecurityRule -ResourceGroupName powershell-test-rg -DnsResolverPolicyName samplePolicyName -Location westus2 -DnsSecurityRuleState "Enabled" -ActionType "Block" -Priority 100 -DnsResolverDomainList @{id = "/subscriptions/0e5a46b1-de0b-4ec3-a5d7-dda908b4e076/resourceGroups/powershell-test-rg/providers/Microsoft.Network/dnsResolverDomainLists/exampleDomainListName";} -Tag @{"key0" = "value0"}
+New-AzDnsResolverInboundEndpoint -DnsResolverName pstestdnsresolvername -Name sampleInboundEndpoint1 -ResourceGroupName powershell-test-rg -IPConfiguration $ipConfiguration -Tag @{"key0" = "value0"}
 ```
 
 ```output
-Location Name                     Type                                     Etag
--------- ----                     ----                                     ----
-westus2  sampleSecurityRule       Microsoft.Network/dnsSecurityRules       "00008cd5-0000-0800-0000-604016c90000"
+Name                   Type                                            Etag
+----                   ----                                            ----
+sampleInboundEndpoint1 Microsoft.Network/dnsResolvers/inboundEndpoints "0b0071aa-0000-0800-0000-60406a2d0000"
 ```
 
-This cmdlet creates a DNS security rule with tag.
+This command creates an Inbound Endpoint for DNS Resolver with Tag.
 
 ## PARAMETERS
-
-### -ActionType
-The type of action to take.
-
-```yaml
-Type: Microsoft.Azure.PowerShell.Cmdlets.DnsResolver.Support.ActionType
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
 
 ### -AsJob
 Run the command as a job
@@ -100,24 +85,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -DnsResolverDomainList
-DNS resolver policy domains lists that the DNS security rule applies to.
-To construct, see NOTES section for DNSRESOLVERDOMAINLIST properties and create a hash table.
-
-```yaml
-Type: Microsoft.Azure.PowerShell.Cmdlets.DnsResolver.Models.Api20250501.ISubResource[]
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -DnsResolverPolicyName
-The name of the DNS resolver policy.
+### -DnsResolverName
+The name of the DNS resolver.
 
 ```yaml
 Type: System.String
@@ -125,21 +94,6 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -DnsSecurityRuleState
-The state of DNS security rule.
-
-```yaml
-Type: Microsoft.Azure.PowerShell.Cmdlets.DnsResolver.Support.DnsSecurityRuleState
-Parameter Sets: (All)
-Aliases:
-
-Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -179,6 +133,22 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -IPConfiguration
+IP configurations for the inbound endpoint.
+To construct, see NOTES section for IPCONFIGURATION properties and create a hash table.
+
+```yaml
+Type: Microsoft.Azure.PowerShell.Cmdlets.DnsResolver.Models.Api20250501.IIPConfiguration[]
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Location
 The geo-location where the resource lives
 
@@ -194,28 +164,13 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -ManagedDomainList
-Microsoft managed domains lists that the DNS security rule applies to.
-
-```yaml
-Type: Microsoft.Azure.PowerShell.Cmdlets.DnsResolver.Support.ManagedDomainList[]
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -Name
-The name of the DNS security rule.
+The name of the inbound endpoint for the DNS resolver.
 
 ```yaml
 Type: System.String
 Parameter Sets: (All)
-Aliases: DnsSecurityRuleName
+Aliases: InboundEndpointName
 
 Required: True
 Position: Named
@@ -233,21 +188,6 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Priority
-The priority of the DNS security rule.
-
-```yaml
-Type: System.Int32
-Parameter Sets: (All)
-Aliases:
-
-Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -339,8 +279,9 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### Microsoft.Azure.PowerShell.Cmdlets.DnsResolver.Models.Api20250501.IDnsSecurityRule
+### Microsoft.Azure.PowerShell.Cmdlets.DnsResolver.Models.Api20250501.IInboundEndpoint
 
 ## NOTES
 
 ## RELATED LINKS
+
